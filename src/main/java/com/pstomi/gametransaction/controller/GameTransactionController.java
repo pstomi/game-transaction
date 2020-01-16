@@ -2,39 +2,56 @@ package com.pstomi.gametransaction.controller;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Controller;
 
 import com.pstomi.gametransaction.model.GameTransactionModel;
 
+@Controller
 public class GameTransactionController {
-	private final Map<String, GameTransactionModel> storage;
 	
-    private static GameTransactionController instance = null; 
+	private static final Logger logger = LogManager.getLogger(GameTransactionController.class);
+	
+	private final Map<String, GameTransactionModel> storage;
     
-    private GameTransactionController()  { 
+    public GameTransactionController()  { 
     	storage = new HashMap<String, GameTransactionModel>();
     }
-    
-    public static GameTransactionController getInstance() 
-    { 
-        if (instance == null) 
-        	instance = new GameTransactionController(); 
-  
-        return instance; 
-    } 
 	
+	/**
+	 * Add Game transaction to storage
+	 * 
+	 * @param transaction the game transaction
+	 * @return true if transaction has been stored
+	 */
 	public boolean addGameTransaction(GameTransactionModel transaction) {
 		storage.put(transaction.getTransactionId(), transaction);
-		return storage.containsKey(transaction.getTransactionId());
+		boolean transactionStored = storage.containsKey(transaction.getTransactionId());
+		if(transactionStored) {
+			logger.info("{} transaction has been stored successfully.", transaction.getTransactionId());
+		} else {
+			logger.error("{} transaction can not be stored.", transaction.getTransactionId());
+		}
+		return transactionStored;
 	}
 	
+	/**
+	 * Get one Game transaction by id
+	 * 
+	 * @return Game transaction if found
+	 */
 	public GameTransactionModel getGameTransaction(String transactionId) {
 		return storage.get(transactionId);
 	}
 	
+	/**
+	 * Get all game transaction
+	 * 
+	 * @return Collection of Game transactions
+	 */
 	public Collection<GameTransactionModel> getAllTransactions() {
 		return storage.values();
 	}

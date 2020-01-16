@@ -13,7 +13,7 @@ public class GameTransactionControllerTest {
 	
 	@Before
 	public void setup() {
-		controller = GameTransactionController.getInstance();
+		controller = new GameTransactionController();
 	}
 	
 	@Test
