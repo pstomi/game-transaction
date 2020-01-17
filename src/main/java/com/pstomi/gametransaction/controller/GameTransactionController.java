@@ -28,12 +28,17 @@ public class GameTransactionController {
 	 * @return true if transaction has been stored
 	 */
 	public boolean addGameTransaction(GameTransactionModel transaction) {
+		boolean transactionStored = false;
+		if(storage.containsKey(transaction.getTransactionId())) {
+			logger.error("Transaction {} is already stored.", transaction.getTransactionId());
+			return transactionStored;
+		}
 		storage.put(transaction.getTransactionId(), transaction);
-		boolean transactionStored = storage.containsKey(transaction.getTransactionId());
+		transactionStored = storage.containsKey(transaction.getTransactionId());
 		if(transactionStored) {
-			logger.info("{} transaction has been stored successfully.", transaction.getTransactionId());
+			logger.info("Transaction {}  has been stored successfully.", transaction.getTransactionId());
 		} else {
-			logger.error("{} transaction can not be stored.", transaction.getTransactionId());
+			logger.error("Transaction {} can not be stored.", transaction.getTransactionId());
 		}
 		return transactionStored;
 	}

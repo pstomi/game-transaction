@@ -36,7 +36,7 @@ public class GameTransactionRestServiceTest {
     }
     
     @When("I create game transaction where {int} of monetary amount spent by {word} user for {word} product")
-    public void testTransfer(String userId, String productId, int monetaryAmount) throws ClientProtocolException, IOException, JSONException {
+    public void makeTransaction(int monetaryAmount, String userId, String productId) throws ClientProtocolException, IOException, JSONException {
     	HttpClient httpClient = HttpClientBuilder.create().build();
     	HttpPost request = new HttpPost( BASE_URL + "/store-transaction");
     	JSONObject data = new JSONObject();
@@ -48,7 +48,7 @@ public class GameTransactionRestServiceTest {
     }
     
     @When("I check transactions")
-    public void testBalance() throws ClientProtocolException, IOException {
+    public void checkTranslation() throws ClientProtocolException, IOException {
     	HttpClient httpClient = HttpClientBuilder.create().build();
     	HttpGet request = new HttpGet( BASE_URL + "/all-transactions");
         response = httpClient.execute( request );
@@ -57,7 +57,7 @@ public class GameTransactionRestServiceTest {
     
     @Then("I have {int} game transaction")
     public void amountOfTransaction(int amount) throws JsonParseException, JsonMappingException, UnsupportedOperationException, IOException {
-        List<GameTransactionModel> balance = objectMapper.readValue(response.getEntity().getContent(), objectMapper.getTypeFactory().constructCollectionType(List.class, GameTransactionModel.class));
-        assertEquals(amount, balance.size());    	
+        List<GameTransactionModel> transactions = objectMapper.readValue(response.getEntity().getContent(), objectMapper.getTypeFactory().constructCollectionType(List.class, GameTransactionModel.class));
+        assertEquals(amount, transactions.size());    	
     }
 }

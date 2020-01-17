@@ -26,5 +26,14 @@ public class GameTransactionControllerTest {
 		assertTrue(transactionStored);
 		assertEquals(3, controller.getAllTransactions().size());
 	}
+	
+	@Test
+	public void testIfSameTransactionIdCanBeStoredMultipleImes() {
+		boolean transactionStored = controller.addGameTransaction(new GameTransactionModel("transactiondid1", "user1", "product1", 100));
+		assertTrue(transactionStored);
+		transactionStored = controller.addGameTransaction(new GameTransactionModel("transactiondid1", "user1", "product1", 100));
+		assertFalse(transactionStored);
+		assertEquals(1, controller.getAllTransactions().size());
+	}
 
 }
