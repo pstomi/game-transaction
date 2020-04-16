@@ -7,7 +7,7 @@ import com.pstomi.gametransaction.model.GameTransactionModel;
 
 import static org.junit.Assert.*;
 
-public class GameTransactionControllerTest {
+public class GameTransactionControllerTest { 
 	
 	private GameTransactionController controller;
 	
